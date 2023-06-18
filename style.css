@@ -3,6 +3,7 @@ body {
   font-family: Roboto, sans-serif;
   margin: 0;
   padding: 0;
+  transition: background-color 0.3s ease;
 }
 
 .header-container {
@@ -15,6 +16,8 @@ body {
   align-items: center;
   justify-content: center;
   height: 95vh;
+  flex-direction: column;
+  z-index: 20;
 }
 
 .switch {
@@ -77,26 +80,43 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+.content-holder {
+  height: 100%;
+  width: 100%;
+  max-width: 1420px;
+  padding-bottom: 10px;
+}
+
+.content-holder h1 {
+  text-align: center;
+  font-size: 2rem;
+}
 .cards-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  gap: 1.25rem;
+  padding-bottom: 1rem;
 }
 
-.card-holder {
+.card {
   width: 100%;
-  max-width: 350px;
+  max-width: 18.75rem;
+  height: 28.75rem;
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px 20px 10px;
+  padding: 1rem 1.25rem 0.625rem;
   position: relative;
+  overflow: hidden;
 }
 
 .image-container {
   width: 100%;
-  height: 200px;
+  height: 12.5rem;
+  cursor: pointer;
 }
 
 .image-container img {
@@ -108,7 +128,7 @@ input:checked + .slider:before {
 
 .caption {
   margin-top: 10px;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.5;
   color: #333;
 }
@@ -117,20 +137,20 @@ input:checked + .slider:before {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 1rem;
+  gap: 10px;
 }
 
 .author-image {
-  border: 1px solid #999;
+  border: 1px solid #888;
   border-radius: 50%;
   overflow: hidden;
-  width: 80px;
-  height: 80px;
+  width: 75px;
+  height: 75px;
 }
+
 .author-image img {
   width: 100%;
   height: 100%;
-
   object-fit: cover;
 }
 
@@ -163,8 +183,8 @@ input:checked + .slider:before {
   flex-direction: column;
   gap: 2rem;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -1px;
+  right: -2px;
 }
 .source img {
   width: 35px;
@@ -181,4 +201,104 @@ input:checked + .slider:before {
 
 .source-link:hover {
   text-decoration: underline;
+}
+
+.load-more-button {
+  background-color: #ffbe0b;
+  padding: 10px 8px;
+  max-width: 100px;
+  margin: auto;
+  text-align: center;
+
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 300ms;
+  margin-bottom: 10px;
+}
+.load-more-button:hover {
+  transform: scale(1.05);
+}
+
+.fullsize-image-holder {
+  position: absolute;
+  z-index: 20;
+  width: 100%;
+  height: 100vh;
+  background-color: #000000;
+  opacity: 70%;
+}
+
+.close-button {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  background-color: #000000;
+  color: #fff;
+}
+
+/* For WebKit-based browsers (Chrome, Safari) */
+.cards-container::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+.cards-container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Background color of the track */
+}
+.cards-container::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the scrollbar thumb */
+}
+.cards-container::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color of the scrollbar thumb on hover */
+}
+
+/* For Firefox */
+.cards-container {
+  scrollbar-width: thin; /* Width of the scrollbar */
+  scrollbar-color: #888 #f1f1f1; /* Color of the scrollbar thumb and track */
+}
+
+/* For Microsoft Edge and Internet Explorer */
+.cards-container {
+  -ms-overflow-style: none; /* Hide the scrollbar */
+}
+.cards-container::-ms-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+.cards-container::-ms-scrollbar-track {
+  background: #f1f1f1; /* Background color of the track */
+}
+.cards-container::-ms-scrollbar-thumb {
+  background: #888; /* Color of the scrollbar thumb */
+}
+.cards-container::-ms-scrollbar-thumb:hover {
+  background: #555; /* Color of the scrollbar thumb on hover */
+}
+
+.dark-theme {
+  background: #333;
+  color: #fff;
+}
+.dark-theme p {
+  color: #fff;
+}
+
+.dark-theme .card {
+  background-color: #777;
+}
+
+.dark-theme .source-link {
+  color: #ffbe0b;
+}
+
+@media (max-width: 75em) {
+  html {
+    font-size: 90%;
+  }
+}
+
+@media (max-width: 48em) {
+  html {
+    font-size: 80%;
+  }
 }

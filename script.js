@@ -1,18 +1,38 @@
 const container = document.querySelector(".cards-container");
-// Fetch the data from data.json
+const loadMoreButton = document.querySelector(".load-more-button");
+const themeToggle = document.getElementById("themeToggle");
+
+let data = [];
+
+const getNextCards = (count) => {
+  const nextCards = data.splice(0, count);
+  return nextCards;
+};
+
 fetch("data.json")
   .then((response) => response.json())
-  .then((data) => {
-    renderCards(data);
+  .then((fetchedData) => {
+    data = fetchedData;
+    renderCards(getNextCards(4));
   })
   .catch((error) => {
-    console.error("Error fetching data:", error);
+    console.error(error);
   });
 
-function renderCards(data) {
+// removing exact time from date
+function dateFormatter(dateString) {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+const renderCards = (data) => {
   data.map((cardData) => {
     const card = document.createElement("div");
-    card.classList.add("card-holder");
+    card.classList.add("card");
+
     const cardContent = `
     <div class="author-info">
       <div class="author-image">
@@ -22,7 +42,7 @@ function renderCards(data) {
       </div>
       <div class="author-details">
         <p class="author-name">${cardData?.name}</p>
-        <p class="date">Posted on: ${cardData?.date}</p>
+        <p class="date">Posted on: ${dateFormatter(cardData?.date)}</p>
         <p class="likes">Likes: ${cardData?.likes}</p>
       </div>
     </div>
@@ -35,18 +55,38 @@ function renderCards(data) {
       <p class="caption">
         ${cardData?.caption}
       </p>
-
       <div class="source">
-        <img src="./${cardData?.source_type}.png" alt="source image" />
+        <img src="./${
+          cardData?.source_type === "facebook"
+            ? cardData?.source_type + ".png"
+            : cardData?.source_type + ".jpg"
+        }" alt="source image" />
         <a class="source-link" href=${cardData?.source_link}
           >Visit Source</a
         >
       </div>
     </div>
-  
     `;
 
     card.innerHTML = cardContent;
     container.appendChild(card);
   });
-}
+};
+
+// toggle theme
+themeToggle.addEventListener("change", () => {
+  document.body.classList.toggle("dark-theme");
+});
+
+// load more cards button
+loadMoreButton.addEventListener("click", () => {
+  const moreCards = getNextCards(4);
+  renderCards(moreCards);
+  window.scrollTo({
+    top: document.documentElement.scrollHeight,
+    behavior: "smooth",
+  });
+  if (data.length === 0) {
+    loadMoreButton.style.display = "none";
+  }
+});

@@ -18,15 +18,23 @@
   </head>
 
   <body>
+    <div class="fullsize-image-holder">
+      <div class="close-button"><p>Close</p></div>
+    </div>
     <div class="header-container">
       <label class="switch">
-        <input type="checkbox" />
+        <input type="checkbox" id="themeToggle" />
         <span class="slider round"></span>
       </label>
     </div>
     <div class="layout-container">
-      <div class="cards-container"></div>
+      <div class="content-holder">
+        <h1 class="title">Check out these cool pictures</h1>
+        <div class="cards-container"></div>
+        <div class="load-more-button">Load More</div>
+      </div>
     </div>
+
     <script src="script.js"></script>
   </body>
 </html>
