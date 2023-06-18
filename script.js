@@ -1,13 +1,9 @@
 const container = document.querySelector(".cards-container");
 const loadMoreButton = document.querySelector(".load-more-button");
 const themeToggle = document.getElementById("themeToggle");
-
+const overlay = document.querySelector(".fullsize-image-overlay");
+const fullsizeImgHolder = document.querySelector(".fullsize-image-holder");
 let data = [];
-
-const getNextCards = (count) => {
-  const nextCards = data.splice(0, count);
-  return nextCards;
-};
 
 fetch("data.json")
   .then((response) => response.json())
@@ -19,14 +15,31 @@ fetch("data.json")
     console.error(error);
   });
 
+const getNextCards = (count) => {
+  const nextCards = data.splice(0, count);
+  return nextCards;
+};
+
 // removing exact time from date
-function dateFormatter(dateString) {
+const dateFormatter = (dateString) => {
   const date = new Date(dateString);
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
-}
+};
+
+const openOverlay = (imageUrl) => {
+  fullsizeImgHolder.innerHTML = `
+  <div class="close-button" onclick="closeOverlay()">&times;</div>
+      <img src="${imageUrl}" alt="Fullsize Image" class='fullsize-image' />
+    `;
+  overlay.style.display = "flex";
+};
+
+const closeOverlay = () => {
+  overlay.style.display = "none";
+};
 
 const renderCards = (data) => {
   data.map((cardData) => {
@@ -46,9 +59,9 @@ const renderCards = (data) => {
         <p class="likes">Likes: ${cardData?.likes}</p>
       </div>
     </div>
-    <div class="image-container">
+    <div class="image-container" onClick="openOverlay('${cardData?.image}')">
       <img
-        src=${cardData?.image}
+        src=${cardData?.image} class="post-image"
       />
     </div>
     <div class="card-content">
@@ -72,6 +85,9 @@ const renderCards = (data) => {
     container.appendChild(card);
   });
 };
+
+// clicking on overlay
+overlay.addEventListener("click", closeOverlay);
 
 // toggle theme
 themeToggle.addEventListener("change", () => {
